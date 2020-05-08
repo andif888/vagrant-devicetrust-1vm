@@ -1,0 +1,36 @@
+---
+- hosts: windows
+  gather_facts: no
+
+  vars_files:
+    - vars/generic.yml
+    - vars/deviceTRUST.yml
+
+  tasks:
+
+    - name: dthost-config - Copy deviceTRUST Policy Registry file
+      win_copy:
+        src: 'templates/deviceTRUST-policy.reg'
+        dest: '{{ extract_dir }}\'
+      tags: devicetrustpolicy
+
+    - name: dthost-config - Copy deviceTRUST Policy Pol file
+      win_copy:
+        src: 'templates/deviceTRUST-GPO-Machine/'
+        dest: '%windir%\system32\GroupPolicy\Machine\'
+      tags: devicetrustpolicy
+
+    - name: dthost-config - Import deviceTRUST Policy Registry file
+      win_shell: |
+        reg import C:\Temp\deviceTRUST-policy.reg
+        gpupdate
+      tags: devicetrustpolicy
+
+    - name: dthost-config - Restart deviceTRUST Host service
+      win_service:
+        name: dthost
+        state: restarted
+      tags: devicetrustpolicy
+
+
+

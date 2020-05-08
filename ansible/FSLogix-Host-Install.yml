@@ -1,0 +1,55 @@
+---
+- hosts: windows
+  gather_facts: no
+
+  vars_files:
+    - vars/generic.yml
+    - vars/FSLogix.yml
+
+
+  tasks:
+
+    - name: fslogix-install - Copy FSLogix Service Installer
+      win_copy:
+        src: '../FSLogix/x64/Release/{{ fslogix_service_install_file }}'
+        dest: '{{ extract_dir }}\'
+
+    - name: fslogix-install - Copy FSLogix Rule Editor Installer
+      win_copy:
+        src: '../FSLogix/x64/Release/{{ fslogix_rule_editor_install_file }}'
+        dest: '{{ extract_dir }}\'
+
+
+    - name: fslogix-install - Install FSLogix Service
+      win_package:
+        path: '{{ extract_dir }}\{{ fslogix_service_install_file }}'
+        product_id: '{{ fslogix_service_product_id }}'
+        state: present
+        arguments: '/quiet'
+      register: win_package_fslogix_service
+
+    - name: fslogix-install - Reboot when fslogix_service requires it
+      win_reboot:
+      when:
+        - win_package_fslogix_service.reboot_required
+
+
+    - name: fslogix-install - Install FSLogix Rule Editor
+      win_package:
+        path: '{{ extract_dir }}\{{ fslogix_rule_editor_install_file }}'
+        product_id: '{{ fslogix_rule_editor_product_id }}'
+        state: present
+        arguments: /quiet
+
+
+    - name: fslogix-install - Copy FSLogix Rule File
+      win_copy:
+        src: 'templates/NotepadPlusPlus.fxr'
+        dest: '%ProgramFiles%\FSLogix\Apps\Rules\'
+
+    - name: fslogix-install - Copy FSLogix Assignment File
+      win_copy:
+        src: 'templates/NotepadPlusPlus.fxa'
+        dest: '%ProgramFiles%\FSLogix\Apps\Rules\'
+
+

@@ -1,0 +1,14 @@
+---
+devicetrust_policydefinitions_zip: dtpolicydefinitions-19.4.100.0.zip
+
+devicetrust_console_install_file: dtconsole-x64-release-19.4.100.0.msi
+devicetrust_console_product_id: '{5D30AF6C-D51E-42F9-972C-A818E903AB35}'
+
+devicetrust_host_install_file: dthost-x64-release-19.4.100.0.msi
+devicetrust_host_product_id: '{BBD9A10B-8F01-4D9C-A6D9-CBD5463FE221}'
+
+devicetrust_client_install_file: dtclient-release-19.4.100.0.exe
+devicetrust_client_product_id: '{1B52F511-B4E7-4A97-9D91-1614EF8BBCAB}'
+
+devicetrust_demotool_install_file: dtdemotool-release-19.4.100.0.exe
+

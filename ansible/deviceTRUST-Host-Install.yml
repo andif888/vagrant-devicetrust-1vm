@@ -1,0 +1,29 @@
+---
+- hosts: windows
+  gather_facts: no
+
+  vars_files:
+    - vars/generic.yml
+    - vars/deviceTRUST.yml
+
+  tasks:
+
+    - name: dthost-install - Copy deviceTRUST Host
+      win_copy:
+        src: '../deviceTRUST/{{ devicetrust_host_install_file }}'
+        dest: '{{ extract_dir }}\'
+
+    - name: dthost-install - Install deviceTRUST Host
+      win_package:
+        path: '{{ extract_dir }}\{{ devicetrust_host_install_file }}'
+        product_id: '{{ devicetrust_host_product_id }}'
+        state: present
+      register: deviceTRUST_Host_install
+
+    - name: dthost-install - reboot if deviceTRUST Host requires it
+      win_reboot:
+      when: deviceTRUST_Host_install.reboot_required
+
+
+
+

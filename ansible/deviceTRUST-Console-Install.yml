@@ -1,0 +1,73 @@
+---
+- hosts: windows
+  gather_facts: no
+
+  vars_files:
+    - vars/generic.yml
+    - vars/deviceTRUST.yml
+
+  tasks:
+
+    - name: dtconsle-install - Copy deviceTRUST Console
+      win_copy:
+        src: '../deviceTRUST/{{ devicetrust_console_install_file }}'
+        dest: '{{ extract_dir }}\'
+
+    - name: dtconsle-install - Copy deviceTRUST Policy Definitions
+      win_copy:
+        src: '../deviceTRUST/{{ devicetrust_policydefinitions_zip }}'
+        dest: '{{ extract_dir }}\'
+
+    - name: dtconsle-install - Unzip GPO Templates
+      win_unzip:
+        src: '{{ extract_dir }}\{{ devicetrust_policydefinitions_zip }}'
+        dest: '{{ extract_dir }}\policydefinitions'
+        #creates: '{{ extract_dir }}\policydefinitions'
+
+    - name: dtconsle-install - Copy ADMX to PolicyDefinitions
+      win_copy:
+        src: '{{ extract_dir }}\policydefinitions\deviceTRUST.admx'
+        dest: '{{ policy_definitions_dir }}\'
+        remote_src: yes
+
+    - name: dtconsle-install - PolicyDefinitions en-US exists
+      win_stat:
+        path: '{{ policy_definitions_dir }}\en-US'
+      register: policy_definitions_en
+
+#    - debug:
+#        var: policy_definitions_en
+
+    - name: dtconsle-install - PolicyDefinitions de-DE exists
+      win_stat:
+        path: '{{ policy_definitions_dir }}\de-DE'
+      register: policy_definitions_de
+
+#    - debug:
+#        var: policy_definitions_de
+
+    - name: dtconsle-install - Copy ADML to PolicyDefinitions en
+      win_copy:
+        src: '{{ extract_dir }}\policydefinitions\en\deviceTRUST.adml'
+        dest: '{{ policy_definitions_dir }}\en-US\'
+        remote_src: yes
+      when: policy_definitions_en.stat.exists
+
+    - name: dtconsle-install - Copy ADML to PolicyDefinitions de
+      win_copy:
+        src: '{{ extract_dir }}\policydefinitions\de\deviceTRUST.adml'
+        dest: '{{ policy_definitions_dir }}\de-DE\'
+        remote_src: yes
+      when: policy_definitions_de.stat.exists
+
+
+    - name: dtconsle-install - Install deviceTRUST Console
+      win_package:
+        path: '{{ extract_dir }}\{{ devicetrust_console_install_file }}'
+        product_id: '{{ devicetrust_console_product_id }}'
+        state: present
+      register: deviceTRUST_Console_install
+
+    - name: dtconsle-install - reboot if deviceTRUST Console requires it
+      win_reboot:
+      when: deviceTRUST_Console_install.reboot_required

@@ -1,0 +1,12 @@
+---
+- import_playbook: generic-Windows.yml
+- import_playbook: generic-Windows-Host.yml
+- import_playbook: generic-Windows-Client.yml
+
+- import_playbook: FSLogix-Host-Install.yml
+
+- import_playbook: deviceTRUST-Console-Install.yml
+- import_playbook: deviceTRUST-Host-Install.yml
+- import_playbook: deviceTRUST-Host-Config.yml
+
+- import_playbook: deviceTRUST-Client-Install.yml

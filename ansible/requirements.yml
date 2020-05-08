@@ -1,0 +1,5 @@
+---
+- src: https://github.com/andif888/ansible-role-win-disable-password-complexity
+- src: https://github.com/andif888/ansible-role-win-disable-windows-updates
+- src: https://github.com/andif888/ansible-role-win-language
+- src: https://github.com/andif888/ansible-role-win-regedit

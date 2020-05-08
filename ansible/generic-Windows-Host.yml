@@ -1,0 +1,112 @@
+---
+- hosts: windows
+
+  vars_files:
+    - vars/generic.yml
+
+  roles:
+    - { role: ansible-role-win-disable-password-complexity }
+
+  tasks:
+
+    - name: windows host - install Chocolatey            # https://github.com/ansible/ansible/issues/53860
+      win_chocolatey:
+        name: chocolatey
+        state: latest
+
+    - name: windows host - disable enhanced exit codes   # https://github.com/ansible/ansible/issues/53860
+      win_chocolatey_feature:
+        name: useEnhancedExitCodes
+        state: disabled
+
+    - name: windows host - Install packages with chocolatey
+      win_chocolatey:
+        name: '{{ item }}'
+        state: present
+      with_items:
+        - 7zip.install
+        - firefox
+        - notepadplusplus.install
+
+    - name: windows host - Create local user user1
+      win_user:
+        name: '{{ local_user_name }}'
+        password: '{{ local_user_password }}'
+        state: present
+        groups:
+          - Users
+          - '{{ remotedesktopuser_group_name }}'
+
+    - name: windows host - Shortcut Local Policy (gpedit.msc)
+      win_shortcut:
+        src: '%windir%\system32\gpedit.msc'
+        dest: '%PUBLIC%\Desktop\gpedit.lnk'
+      tags: desktopshortcut
+
+    - name: windows host - Shortcut Printer
+      win_shortcut:
+        src: '%windir%\explorer.exe'
+        dest: '%PUBLIC%\Desktop\Printers.lnk'
+        arguments: shell:::{A8A91A66-3A7D-4424-8D24-04E180695C7A}
+        icon: '%windir%\system32\devicecenter.dll,0'
+      tags: desktopshortcut
+
+    - name: windows host - Shortcut Wordpad
+      win_shortcut:
+        src: '%ProgramFiles%\windows nt\accessories\wordpad.exe'
+        dest: '%PUBLIC%\Desktop\Wordpad.lnk'
+      tags: desktopshortcut
+
+    - name: windows host - Shortcut Notepad++
+      win_shortcut:
+        src: '%ProgramFiles%\Notepad++\notepad++.exe'
+        dest: '%PUBLIC%\Desktop\Notepad++.lnk'
+      tags: desktopshortcut
+
+    - name: windows host - Applocker copy rule file 
+      win_copy:
+        src: templates/applocker.xml
+        dest: '{{ extract_dir }}\'
+      tags: applocker    
+
+    - name: windows host - Applocker set autostart
+      win_shell: |
+        sc.exe config AppIDSvc start= auto
+      tags: applocker
+
+    - name: windows host - Applocker start
+      win_service:
+        name: AppIDSvc
+        state: started
+      tags: applocker
+
+    - name: windows host - Applocker import rule file
+      win_shell: |
+        Set-ApplockerPolicy -XMLPolicy C:\Temp\applocker.xml
+      tags: applocker
+
+    - name: windows host - Create Printer Floor 1
+      win_shell: |
+        $printerDriver = Get-PrinterDriver -Name "Microsoft IPP Class Driver" -ErrorAction SilentlyContinue
+        if (-Not $printerDriver) {
+          Add-PrinterDriver -Name "Microsoft IPP Class Driver"
+        }
+        $printer = Get-Printer -Name "Floor 1" -ErrorAction SilentlyContinue
+        if (-Not $printer) {
+          Add-Printer -Name "Floor 1" -DriverName "Microsoft IPP Class Driver" -PortName "LPT1:"
+        }
+      tags: printer
+
+    - name: windows host - Create Printer Floor 2
+      win_shell: |
+        $printerDriver = Get-PrinterDriver -Name "Microsoft PS Class Driver" -ErrorAction SilentlyContinue
+        if (-Not $printerDriver) {
+          Add-PrinterDriver -Name "Microsoft PS Class Driver"
+        }
+        $printer = Get-Printer -Name "Floor 2" -ErrorAction SilentlyContinue
+        if (-Not $printer) {
+          Add-Printer -Name "Floor 2" -DriverName "Microsoft PS Class Driver" -PortName "LPT1:"
+        }
+      tags: printer
+
+

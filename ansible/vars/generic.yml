@@ -1,0 +1,19 @@
+---
+win_user_language: de-DE
+win_timezone: W. Europe Standard Time
+win_everyone_username: Everyone
+policy_definitions_dir: C:\Windows\PolicyDefinitions
+
+local_user_name: user1
+local_user_password: vagrant
+
+extract_dir: C:\Temp
+
+remotedesktopuser_group_name: Remote Desktop Users
+members_of_remotedesktopuser:
+  - 'Users'
+
+win_registry_items: 
+  - { path: "HKCU:\\Control Panel\\Colors", name: Background, data: 53 53 53, type: string, state: present }
+  - { path: "HKCU:\\Control Panel\\Desktop", name: WallPaper, data: "", type: string, state: present }
+ 

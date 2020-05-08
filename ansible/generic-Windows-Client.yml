@@ -1,0 +1,32 @@
+---
+- hosts: windows
+  gather_facts: no
+
+  vars_files:
+    - vars/generic.yml
+
+  roles:
+    - { role: ansible-role-win-regedit }
+
+  tasks:
+
+    - name: windows client - Copy RDSH Desktop Icon
+      win_template:
+        src: templates/RDSH-user.rdp.j2
+        dest: '%PUBLIC%\Desktop\RDSH-user.rdp'
+      
+    - name: windows client - Shortcut screensaver
+      win_shortcut:
+        src: '%windir%\system32\rundll32.exe'
+        dest: '%PUBLIC%\Desktop\Screensaver.lnk'
+        arguments: shell32.dll,Control_RunDLL desk.cpl,,1
+        icon: '%windir%\system32\desk.cpl,0'
+
+    - name: windows client - Shortcut Firewall
+      win_shortcut:
+        src: '%windir%\explorer.exe'
+        dest: '%PUBLIC%\Desktop\Firewall.lnk'
+        arguments: shell:::{4026492F-2F69-46B8-B9BF-5654FC07E423}
+        icon: '%windir%\system32\FirewallControlPanel.dll,0'
+
+    
