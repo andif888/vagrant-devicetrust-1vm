@@ -39,7 +39,7 @@ Vagrant.configure("2") do |config|
 
       rdsh.vm.provider :virtualbox do |vb|
         vb.customize ["modifyvm", :id, "--memory", 3072]
-        vb.customize ["modifyvm", :id, "--cpus", 4]
+        vb.customize ["modifyvm", :id, "--cpus", 3]
       end
 
       rdsh.vm.provision "shell",
@@ -65,7 +65,7 @@ Vagrant.configure("2") do |config|
 
       ctrl.vm.provider :virtualbox do |vb|
         vb.customize ["modifyvm", :id, "--memory", 2048]
-        vb.customize ["modifyvm", :id, "--cpus", 2]
+        vb.customize ["modifyvm", :id, "--cpus", 1]
       end
 
       ctrl.vm.provision "copy_scripts", type: "file", source: "./scripts", destination: "/tmp/scripts"   
