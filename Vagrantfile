@@ -39,7 +39,7 @@ Vagrant.configure("2") do |config|
 
       rdsh.vm.provider :virtualbox do |vb|
         vb.customize ["modifyvm", :id, "--memory", 3072]
-        vb.customize ["modifyvm", :id, "--cpus", 2]
+        vb.customize ["modifyvm", :id, "--cpus", 4]
       end
 
       rdsh.vm.provision "shell",
