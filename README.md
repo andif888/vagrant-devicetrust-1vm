@@ -1,6 +1,7 @@
 # vagrant deviceTRUST 1VM
 
-this repo provisions a single VM test environment for deviceTRUST (https://devicetrust.de/) using Vagrant und VirtualBox including **deviceTRUST's Demo Tool** to easily demonstrate pre-configured use-cases
+this repo provisions a single VM test environment for deviceTRUST (https://devicetrust.de/) using Vagrant und VirtualBox including **deviceTRUST's Demo Tool** to easily demonstrate pre-configured use-cases.   
+Check out the **[Video on Youtube](https://youtu.be/yx2UItwv0-k)** to get an idea.  
 
 It spins up the following VMs:
 
