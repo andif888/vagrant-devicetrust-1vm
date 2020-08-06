@@ -71,6 +71,7 @@ Vagrant.configure("2") do |config|
       ctrl.vm.provision "copy_scripts", type: "file", source: "./scripts", destination: "/tmp/scripts"   
 
       ctrl.vm.provision "shell_prepare_controller", type: "shell", inline: <<-SHELL
+        chmod +x /tmp/scripts/prepare_controller.sh
         /tmp/scripts/prepare_controller.sh
         rsync -a /vagrant/ansible/ /tmp/ansible/
       SHELL
