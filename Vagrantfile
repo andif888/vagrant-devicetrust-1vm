@@ -10,7 +10,7 @@ Vagrant.configure("2") do |config|
         v.customize ["modifyvm", :id, "--memory", 2048]
         v.customize ["modifyvm", :id, "--cpus", 2]
         v.customize ["modifyvm", :id, "--vram", 128]
-        v.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+        # v.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
         v.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]
     end
 
