@@ -52,15 +52,7 @@
         dest: '{{ policy_definitions_dir }}\en-US\'
         remote_src: yes
       when: policy_definitions_en.stat.exists
-
-    - name: dtconsle-install - Copy ADML to PolicyDefinitions de
-      win_copy:
-        src: '{{ extract_dir }}\policydefinitions\de\deviceTRUST.adml'
-        dest: '{{ policy_definitions_dir }}\de-DE\'
-        remote_src: yes
-      when: policy_definitions_de.stat.exists
-
-
+ 
     - name: dtconsle-install - Install deviceTRUST Console
       win_package:
         path: '{{ extract_dir }}\{{ devicetrust_console_install_file }}'
