@@ -48,7 +48,7 @@
 
     - name: dtconsle-install - Copy ADML to PolicyDefinitions en
       win_copy:
-        src: '{{ extract_dir }}\policydefinitions\en\deviceTRUST.adml'
+        src: '{{ extract_dir }}\policydefinitions\en-US\deviceTRUST.adml'
         dest: '{{ policy_definitions_dir }}\en-US\'
         remote_src: yes
       when: policy_definitions_en.stat.exists

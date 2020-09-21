@@ -8,6 +8,6 @@ if [ -f "/tmp/deviceTRUST.zip" ]; then
   rm -f /tmp/deviceTRUST.zip
 fi
 
-wget --progress=bar:force -O /tmp/deviceTRUST.zip 'https://minio.prianto.com/devicetrust/deviceTRUST-19.4.100.zip'
+wget --progress=bar:force -O /tmp/deviceTRUST.zip 'https://storage.devicetrust.com/download/deviceTRUST-20.1.200.zip'
 
 unzip /tmp/deviceTRUST.zip -d /tmp/deviceTRUST/
