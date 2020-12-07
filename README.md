@@ -64,5 +64,5 @@ Password: vagrant
 
 You need an evaluation license for deviceTRUST. To request one, please contact [deviceTRUST](https://devicetrust.com) directly. 
 
-To configure the evaluation license, open **Local Group Policy** Editor and locate `Computer Configuration` -> `Administrative Templates` -> `deviceTRUST`.  
-Open the `Enable deviceTRUST` setting and enter/replace the license code into the `License` field. 
+To configure the evaluation license, open **Local Group Policy** Editor and locate `Computer Configuration` -> `deviceTRUST Console`.    
+Go to `Settings` and find `Licensing` to enter the license string. 

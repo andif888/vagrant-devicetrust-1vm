@@ -1,5 +1,5 @@
 ---
 fslogix_service_install_file: FSLogixAppsSetup.exe
 fslogix_rule_editor_install_file: FSLogixAppsRuleEditorSetup.exe
-fslogix_service_product_id: '{576C0F53-896A-42B6-BCEF-011D55CB0B0F}'
-fslogix_rule_editor_product_id: '{D3C510F7-DD55-4867-881C-5AF7BA127486}'
+fslogix_service_product_id: '{2F6BC851-819A-4377-8B7B-92B5D657C234}'
+fslogix_rule_editor_product_id: '{66B40F7B-35A5-478A-BFED-CB38AE9F4632}'

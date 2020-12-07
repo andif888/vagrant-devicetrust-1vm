@@ -51,17 +51,17 @@
         icon: '%windir%\system32\devicecenter.dll,0'
       tags: desktopshortcut
 
-    - name: windows host - Shortcut Wordpad
-      win_shortcut:
-        src: '%ProgramFiles%\windows nt\accessories\wordpad.exe'
-        dest: '%PUBLIC%\Desktop\Wordpad.lnk'
-      tags: desktopshortcut
+    # - name: windows host - Shortcut Wordpad
+    #   win_shortcut:
+    #     src: '%ProgramFiles%\windows nt\accessories\wordpad.exe'
+    #     dest: '%PUBLIC%\Desktop\Wordpad.lnk'
+    #   tags: desktopshortcut
 
-    - name: windows host - Shortcut Notepad++
-      win_shortcut:
-        src: '%ProgramFiles%\Notepad++\notepad++.exe'
-        dest: '%PUBLIC%\Desktop\Notepad++.lnk'
-      tags: desktopshortcut
+    # - name: windows host - Shortcut Notepad++
+    #   win_shortcut:
+    #     src: '%ProgramFiles%\Notepad++\notepad++.exe'
+    #     dest: '%PUBLIC%\Desktop\Notepad++.lnk'
+    #   tags: desktopshortcut
 
     - name: windows host - Applocker copy rule file 
       win_copy:
@@ -106,6 +106,18 @@
         $printer = Get-Printer -Name "Floor 2" -ErrorAction SilentlyContinue
         if (-Not $printer) {
           Add-Printer -Name "Floor 2" -DriverName "Microsoft PS Class Driver" -PortName "LPT1:"
+        }
+      tags: printer
+
+    - name: windows host - Create Printer Corporate
+      win_shell: |
+        $printerDriver = Get-PrinterDriver -Name "Microsoft PCL6 Class Driver" -ErrorAction SilentlyContinue
+        if (-Not $printerDriver) {
+          Add-PrinterDriver -Name "Microsoft PCL6 Class Driver"
+        }
+        $printer = Get-Printer -Name "Corporate" -ErrorAction SilentlyContinue
+        if (-Not $printer) {
+          Add-Printer -Name "Corporate" -DriverName "Microsoft PCL6 Class Driver" -PortName "LPT1:"
         }
       tags: printer
 

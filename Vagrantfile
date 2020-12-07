@@ -22,6 +22,7 @@ Vagrant.configure("2") do |config|
 
     config.vm.define "rdsh" do |rdsh| 
       rdsh.vm.box = "gusztavvargadr/windows-server"
+      # rdsh.vm.box = "StefanScherer/windows_2019"
       # rdsh.vm.box = "peru/windows-server-2019-datacenter-x64-eval"
       rdsh.vm.communicator = "winrm"
 
