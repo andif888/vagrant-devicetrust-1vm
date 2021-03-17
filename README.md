@@ -62,7 +62,8 @@ Password: vagrant
 
 ## Evaluation License
 
-You need an evaluation license for deviceTRUST. To request one, please contact [deviceTRUST](https://devicetrust.com) directly. 
+If the built in license has expired, you need a new evaluation license for deviceTRUST. To request one, please contact [deviceTRUST](https://devicetrust.com) directly.  
+To watch out for license expiry please check **windows eventlog** for event id `15` in `Application and Service Logs` -> `deviceTRUST` -> `Admin`
 
 To configure the evaluation license, open **Local Group Policy** Editor and locate `Computer Configuration` -> `deviceTRUST Console`.    
 Go to `Settings` and find `Licensing` to enter the license string. 
